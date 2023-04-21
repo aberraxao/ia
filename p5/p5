@@ -1,0 +1,40 @@
+trabalhador(maria).
+trabalhador(rui).
+departamento(maria, financeiro).
+departamento(rui, comercial).
+chefe(pedro, comercial).
+ceo(filipa).
+numeroFuncionariosDepartamento(comercial, 30).
+
+chefeTrabalhador(X,C) :- 
+    trabalhador(X),
+    departamento(X,D),
+    chefe(C,D).
+
+chefia(X) :-
+    ceo(X).
+chefia(X) :-
+    chefe(X,_).
+
+maiorDepartamento(D):-
+    numeroFuncionariosDepartamento(D,N),
+    \+ (numeroFuncionariosDepartamento(_,N2), N2 > N).
+
+
+% X é o primeiro se a cabeça for igual a ele
+first([X|_], X).
+
+% X é o último se for o último da cauda
+last([X], X).
+last([_|T], X):- last(T,X).
+
+% concatena listas
+% vou removendo as cabeças de L1 e colocando em LFinal
+append([],L,L).
+append([H|L1], L2, [H|LFinal]) :- append(L1,L2,LFinal).
+
+% crio uma lista auxiliar e vou colocando os elementos na frente da lista
+reverse([], []).
+reverse([H | L], L2) :- 
+    reverse(L, Laux),
+    append(Laux, [H], L2).

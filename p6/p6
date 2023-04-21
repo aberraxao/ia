@@ -1,0 +1,50 @@
+capitulo(cp1).
+capitulo(cp2).
+capitulo(cp3).
+
+seccao(cp1, sec1, 2).
+seccao(cp1, sec2, 0).
+seccao(cp1, sec3, 24).
+
+seccao(cp2, sec1, 10).
+seccao(cp2, sec2, 13).
+seccao(cp2, sec3, 73).
+
+seccao(cp3, sec1, 82).
+seccao(cp3, sec2, 2).
+seccao(cp3, sec3, 88).
+
+% A.1.
+% o capítulo maior é um capítulo
+% que não tem capítulos maiores
+captMaior(C, Min) :-
+    capitulo(C),
+    \+ ( seccao(C,_,X), X<Min ).
+
+% A.2.
+listagemSeccoes(C, L) :-
+    findall((S,P), seccao(C,S,P), L).
+
+% A.3.
+numPaginasTotal(C, S) :-
+    listagemSeccoes(C, L),
+    soma(L, S).
+
+soma([(_, P)], P).
+soma([(_, P) | T], S) :-
+    soma(T, P2),
+	S is P + P2.
+
+
+% A.4.
+imprime_info(C) :-
+    capitulo(C),
+    write('Capitulo: '), write(C), nl,
+    listagemSeccoes(C, L),
+    imprimirSeccoes(L).
+    
+imprimirSeccoes([]):- write('------').
+imprimirSeccoes([(S,N)|T]) :-
+	write('Secção '), write(S), write(' tem '), write(N), write(' páginas.'), nl,
+    imprimirSeccoes(T).
+
